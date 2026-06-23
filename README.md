@@ -52,6 +52,7 @@ AngelowDJ/
 │   │   ├── __init__.py
 │   │   ├── admin.py
 │   │   ├── apps.py
+│   │   ├── context_processors.py
 │   │   ├── forms.py
 │   │   ├── models.py
 │   │   ├── services.py
@@ -165,6 +166,15 @@ DCRM es un sistema de gestión de tienda online que permite:
 - **models.py (website)**: Modelo UserProfile con gestión de roles y bloqueo por intentos fallidos
 - **forms.py**: Integradas validaciones en LoginForm y RegisterForm
 
+### Arquitectura y Servicios
+- **clientes/services.py**: Servicio `ClienteService` con métodos `obtener_clientes_filtrados`, `obtener_clientes_por_departamento`, `obtener_estadisticas`
+- **tienda/context_processors.py**: Procesadores `carrito` y `categorias` para acceso global en templates
+
+### Decoradores Implementados
+- `@login_requerido`: Requiere autenticación para acceder a la vista
+- `@rol_requerido('admin', 'vendedor')`: Control de acceso por roles
+- `@verificar_bloqueo`: Verifica que el usuario no esté bloqueado por intentos fallidos
+
 ## Instalación y Configuración
 
 ```bash
@@ -190,3 +200,12 @@ Este sistema permite gestionar una tienda online completa con:
 - **Carrito de compras**: Agregar, modificar y eliminar productos
 - **Favoritos**: Marcar productos preferidos
 - **CRM integrado**: Gestión de clientes con historial y notas
+
+### Vistas Principales (clientes/views.py)
+- `cliente_list_view`: Lista con búsqueda, filtros y paginación
+- `cliente_create_view`: Crear nuevos clientes
+- `cliente_update_view`: Editar clientes existentes
+- `cliente_delete_view`: Eliminación suave (solo admin)
+- `cliente_detail_view`: Detalle del cliente
+- `cliente_export_view`: Exportar a CSV
+- `cliente_api_view`: API REST con datos de clientes
